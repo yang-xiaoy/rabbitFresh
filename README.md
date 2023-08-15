@@ -77,9 +77,35 @@ createApp(App).mount('#app')
 
 ## 1. 安装
 
+```sh
+npm install element-plus --save
 
+// 按需导入，自动安装
+npm install -D unplugin-vue-components unplugin-auto-import
+```
 
 ## 2. 配置
+
+```js
+// vite.config.js
+
+// 导出插件
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+// 按需导入，自动安装
+plugins: [
+    vue(),
+    // 配置按需导入的 element-plus 插件
+    AutoImport({
+      resolvers: [ElementPlusResolver()]
+    }),
+    Components({
+      resolvers: [ElementPlusResolver()]
+    })
+ ],
+```
 
 
 
