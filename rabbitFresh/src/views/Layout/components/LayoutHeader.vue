@@ -28,22 +28,12 @@ onMounted(() => {
         <li class="home" v-for="item in getCategoryList" :key="item.id">
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
-        <!-- <li>
-          <RouterLink to="/">居家</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">美食</RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/">服饰</RouterLink>
-        </li> -->
       </ul>
       <div class="search">
         <i class="iconfont icon-sousuo"></i>
         <input type="text" placeholder="搜一搜">
       </div>
       <!-- 头部购物车 -->
-
     </div>
   </header>
 </template>
