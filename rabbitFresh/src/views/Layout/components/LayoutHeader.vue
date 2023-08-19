@@ -1,20 +1,7 @@
 <script setup>
-import { getCategoryAPI } from '@/api/layout.js'
-import { onMounted, ref } from 'vue'
-
 // 定义响应式数据
-const getCategoryList = ref([])
-
-const getCategory = async () => {
-  const res = await getCategoryAPI()
-  getCategoryList.value = res.result
-}
-
-console.log(getCategoryList)
-
-onMounted(() => {
-  getCategory()
-})
+import { useCategoryStore } from '@/stores/category.js'
+const categoryStore = useCategoryStore()
 
 </script>
 
@@ -24,8 +11,9 @@ onMounted(() => {
       <h1 class="logo">
         <RouterLink to="/">小兔鲜</RouterLink>
       </h1>
+      <!-- 导航区域（常规导航） -->
       <ul class="app-header-nav">
-        <li class="home" v-for="item in getCategoryList" :key="item.id">
+        <li class="home" v-for="item in categoryStore.categoryList" :key="item.id">
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
