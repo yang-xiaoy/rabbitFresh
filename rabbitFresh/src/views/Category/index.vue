@@ -2,7 +2,7 @@
 import { getTopCategoryAPI } from '@/api/category.js'
 import { getBannerAPI } from '@/api/home.js'
 import { onMounted, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 
 import GoodsItem from '@/views/Home/components/GoodsItem.vue'
 
@@ -10,8 +10,9 @@ import GoodsItem from '@/views/Home/components/GoodsItem.vue'
 const categoryData = ref({})
 // 组件内获取路由参数
 const route = useRoute()
-const getCategory = async () => {
-  const res = await getTopCategoryAPI(route.params.id)
+// id默认参数是 id = route.params.id，在 onBeforeRouteUpdate 调用的时候传递参数，就是用传递的参数，否则使用默认参数
+const getCategory = async (id = route.params.id) => {
+  const res = await getTopCategoryAPI(id)
   categoryData.value = res.result
 }
 
@@ -20,7 +21,6 @@ const getBanner = async () => {
   const res = await getBannerAPI({
     distributionSite: '2'
   })
-  console.log(res)
   bannerList.value = res.result
 }
 
@@ -29,6 +29,12 @@ onMounted(() => {
     getBanner()
 })
 
+// 2. 解决路由缓存问题。目标：路由参数变数的时候，可以把分类数据接口重新发送
+onBeforeRouteUpdate((to) => {
+  // 存在问题：使用最新的路由参数请求最新分类数据
+  // console.log(to)
+  getCategory(to.params.id)
+})
 </script>
 
 <template>
